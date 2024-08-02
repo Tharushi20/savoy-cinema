@@ -1,0 +1,268 @@
+body {
+    background-color: black;
+    color: white;
+}
+
+.navbar {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px 20px;
+}
+
+.navbar-brand {
+    font-size: 1.5em;
+    color: yellow;
+}
+
+.nav-link {
+    color: white;
+}
+
+.nav-link:hover, .nav-item.active .nav-link {
+    color: yellow;
+}
+
+.carousel-caption {
+    text-align: left;
+    background: none;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.carousel-content {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.carousel-small-image {
+    width: 300px;
+    height: auto;
+    margin-right: 20px;
+}
+
+.carousel-description h3 {
+    font-size: 2em;
+    color: white;
+}
+
+.genres .badge {
+    margin-right: 5px;
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+}
+
+.now-showing-box {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 10px 15px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.now-showing-box span {
+    color: white;
+}
+
+.now-showing-box button {
+    background-color: darkorange;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.now-showing-box button:hover {
+    background-color: orange;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: black;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Movies Section */
+.movies-section, .now-showing-section {
+    padding: 60px 0;
+    background-color: black;
+    color: white;
+}
+
+.movies-section h2, .now-showing-section h2 {
+    color: white;
+    margin-bottom: 40px;
+}
+
+.movie-card {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.movie-card img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+.movie-card h3 {
+    color: white;
+    margin: 15px 0;
+    font-size: 1.4em;
+}
+
+.movie-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.movie-buttons .btn {
+    font-size: 0.9em;
+}
+
+.CgBVX {
+    margin: 1.5rem auto 3rem;
+    z-index: 10;
+    width: 100%;
+    justify-content: space-between;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    background-color: rgba(26, 26, 26, 1);
+    position: relative;
+    max-width: 1360px;
+    min-height: 80px;
+    display: flex;
+}
+
+.cinema-detail-outer-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.cinema-detail-wrapper {
+    color: #fff;
+}
+
+.cinema-detail-wrapper p.bold {
+    font-weight: bold;
+    margin: 0;
+}
+
+.cinema-detail-wrapper ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cinema-detail-wrapper ul li {
+    margin: 0;
+}
+
+.flex.items-center.buy-btn a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.flex.items-center.buy-btn .btn {
+    background-color: #ffcc00;
+    color: #000;
+    font-weight: bold;
+    border: none;
+    padding: 0.5rem 1rem;
+    text-transform: uppercase;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.flex.items-center.buy-btn .btn:hover {
+    background-color: #e6b800;
+}
+
+.cinema-section {
+    padding: 60px 0;
+    background-color: black;
+    color: white;
+}
+
+.cinema-card {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.cinema-label-box {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.cinema-label-c1 {
+    background-color: #ff9999;
+}
+
+.cinema-label-c2 {
+    background-color: #99ff99;
+}
+
+.cinema-label-c3 {
+    background-color: #9999ff;
+}
+
+.cinema-card h3 {
+    color: white;
+    margin: 15px 0;
+    font-size: 1.4em;
+}
+
+.cinema-card ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.cinema-card ul li {
+    margin: 10px 0;
+    font-size: 1em;
+}
+
+.cinema-card .btn {
+    font-size: 0.9em;
+    margin-top: 15px;
+}
+
+.cinema-c1 {
+    border: 2px solid #ff9999;
+}
+
+.cinema-c2 {
+    border: 2px solid #99ff99;
+}
+
+.cinema-c3 {
+    border: 2px solid #9999ff;
+}
+
+
+
+
+

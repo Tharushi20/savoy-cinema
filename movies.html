@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAVOY Cinema - Movies</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <a class="navbar-brand" href="index.html">SAVOY</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="tickets.html">Buy Tickets</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="movies.html">Movies</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="cinema.html">Cinemas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact Us</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Movies List Section -->
+    <section class="movies-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2>Now Showing</h2>
+                </div>
+            </div>
+            <div class="row" id="now-showing-movies">
+                <!-- Movies will be populated here by JavaScript -->
+            </div>
+
+            <div class="coming-soon-section">
+                <div class="row mt-5">
+                    <div class="col-12">
+                        <h2>Coming Soon</h2>
+                    </div>
+                </div>
+                <div class="row" id="coming-soon-movies">
+                    <!-- Movies will be populated here by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 SAVOY Cinema. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('fetch_movies.php')
+                .then(response => response.json())
+                .then(movies => {
+                    const nowShowingContainer = document.getElementById('now-showing-movies');
+                    const comingSoonContainer = document.getElementById('coming-soon-movies');
+
+                    movies.forEach(movie => {
+                        const movieCard = `
+                            <div class="col-md-4">
+                                <div class="movie-card">
+                                    <img src="${movie.image}" alt="${movie.title}" class="img-fluid">
+                                    <h3>${movie.title}</h3>
+                                    <div class="movie-buttons">
+                                        ${movie.tickets_url ? `<button class="btn btn-warning" onclick="location.href='${movie.tickets_url}'">Buy Tickets</button>` : ''}
+                                        <button class="btn btn-secondary" onclick="location.href='${movie.trailer_url}'">Watch Trailer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+
+                        if (movie.category === 'now_showing') {
+                            nowShowingContainer.innerHTML += movieCard;
+                        } else if (movie.category === 'coming_soon') {
+                            comingSoonContainer.innerHTML += movieCard;
+                        }
+                    });
+                });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAVOY Cinema - Contact Us</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            padding-top: 70px; /* Adjusted padding for fixed navbar */
+        }
+
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+        }
+
+        .navbar-brand {
+            font-size: 1.5em;
+            color: darkorange;
+        }
+
+        .nav-link {
+            color: white;
+        }
+
+        .nav-link:hover, .nav-item.active .nav-link {
+            color: darkorange;
+        }
+
+        .contact-section {
+            margin: 50px auto;
+            padding: 20px;
+            max-width: 900px; 
+        }
+
+        .contact-section h2 {
+            color: white;
+            margin-bottom: 20px;
+            text-align: left;
+            font-size: 2.5em; 
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-size: 1.2em;
+        }
+
+        .form-control {
+            background-color: black;
+            color: white;
+            border-color: darkorange;
+        }
+
+        .form-control:focus {
+            background-color: black;
+            color: white;
+            border-color: darkorange;
+            box-shadow: none;
+        }
+
+        .form-check-label {
+            font-size: 1.2em;
+        }
+
+        .btn-primary {
+            background-color: darkorange;
+            border-color: darkorange;
+        }
+
+        .btn-primary:hover {
+            background-color: #e68a00;
+            border-color: #e68a00;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            text-align: center;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <a class="navbar-brand" href="index.html">SAVOY</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="tickets.html">Buy Tickets</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="movies.html">Movies</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="cinema.html">Cinemas</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="contact.html">Contact Us</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2>Contact Us</h2>
+                    <p style="font-size: 1.2em;">Whether you are a movie distributor, an aspiring producer, looking to advertise your brand at our cinemas, or simply providing feedback on your experience, we would love to hear from you.</p>
+                </div>
+            </div>
+            
+            <form id="contactForm" action="save_message.php" method="POST" onsubmit="return validateForm()">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone number</label>
+                    <input type="tel" class="form-control" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Select your subject</label>
+                    <select class="form-control" id="subject" name="subject">
+                        <option value="General Inquiry">General Inquiry</option>
+                        <option value="Movie Distribution">Movie Distribution</option>
+                        <option value="Advertising">Advertising</option>
+                        <option value="Feedback">Feedback</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Type your message here</label>
+                    <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 SAVOY Cinema. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function validateForm() {
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+            var phone = document.getElementById('phone').value;
+            var message = document.getElementById('message').value;
+
+            if (name.trim() == '' || email.trim() == '' || phone.trim() == '' || message.trim() == '') {
+                alert('Please fill out all required fields.');
+                return false;
+            }
+
+            return true;
+        }
+
+        function getQueryParam(name) {
+            let urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Check the status parameter and display a message
+        window.onload = function() {
+            let status = getQueryParam('status');
+            if (status === 'success') {
+                alert('Your message has been sent successfully!');
+            } else if (status === 'error') {
+                alert('There was an error sending your message. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Tickets - SAVOY Cinema</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script>
+        window.onload = function() {
+            // Check if 'success' query parameter is present
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('success')) {
+                // Create and show the success message
+                const message = "Ticket booked successfully!";
+                alert(message); // Use alert for simplicity, or create a custom modal
+                // Optionally, you can clear the 'success' query parameter
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+        }
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+        }
+        .navbar-brand {
+            font-size: 1.5em;
+            color: darkorange;
+        }
+        .nav-link {
+            color: white;
+        }
+        .nav-link:hover, .nav-item.active .nav-link {
+            color: darkorange;
+        }
+        #tickets-container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+        }
+        .step-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        .button {
+            background-color: darkorange;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: orange;
+        }
+        .button:disabled {
+            background-color: gray;
+            cursor: not-allowed;
+        }
+        .pick-movie, .pick-seat, .pick-date, .pick-cinema, .pick-showtime {
+            margin-bottom: 20px;
+        }
+        .pick-movie .movie-title, .pick-cinema .cinema-title, .pick-showtime .showtime-title {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        .pick-movie button, .pick-seat button, .pick-date button, .pick-cinema button, .pick-showtime button {
+            background-color: black;
+            border: 1px solid white;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin: 5px;
+            font-size: 0.9em;
+        }
+        .pick-movie button:hover, .pick-seat button:hover, .pick-date button:hover,
+        .pick-cinema button:hover, .pick-showtime button:hover {
+            background-color: darkorange;
+            color: black;
+        }
+        .pick-date .selected, .pick-movie .selected, .pick-seat .selected,
+        .pick-cinema .selected, .pick-showtime .selected {
+            background-color: darkorange;
+            color: black;
+        }
+        h3, h2 {
+            color: white;
+            text-align: left;
+            margin-left: 0;
+        }
+        .carousel-inner {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .summary-item {
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.summary-item strong {
+    color: darkorange;
+}
+.summary-item p {
+    margin: 0;
+}
+.summary-form {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 5px;
+}
+.summary-form .button {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+    </style>
+    
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <a class="navbar-brand" href="index.html">SAVOY</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="tickets.html">Buy Tickets</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="movies.html">Movies</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="cinema.html">Cinemas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact Us</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5 pt-5" id="tickets-container">
+        <h2>Buy Tickets</h2>
+        <div id="ticketBooking" class="carousel slide" data-ride="carousel" data-interval="false">
+            <div class="carousel-inner">
+                <!-- Step 1: Select Date -->
+                <div class="carousel-item active">
+                    <div class="step-title mt-4">Select a Date</div>
+                    <div id="dateSelection" class="pick-date">
+                        <!-- Dates will be dynamically populated here -->
+                    </div>
+                    <div id="movieSelection" class="pick-movie d-none">
+                        <div class="step-title mt-4 movie-title">Select a Movie</div>
+                        <div class="movie-buttons">
+                            <!-- Movies will be dynamically populated here -->
+                        </div>
+                    </div>
+                    <div id="cinemaSelection" class="pick-cinema d-none">
+                        <div class="step-title mt-4 cinema-title">Select a Cinema</div>
+                        <div class="cinema-buttons">
+                            <!-- Cinemas will be dynamically populated here -->
+                        </div>
+                    </div>
+                    <div id="showTimeSelection" class="pick-showtime d-none">
+                        <div class="step-title mt-4 showtime-title">Select a Show Time</div>
+                        <div class="showtime-buttons">
+                            <!-- Showtimes will be dynamically populated here -->
+                        </div>
+                    </div>
+                    <button class="button mt-3" id="nextStep1" disabled>Next</button>
+                </div>
+
+                <!-- Step 2: Your Details -->
+                <div class="carousel-item">
+                    <div class="step-title">Your Details</div>
+                    <form id="detailsForm">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Your Name" id="nameInput" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-control" placeholder="Your Email" id="emailInput" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" class="form-control" placeholder="Your Phone Number" id="contactInput" required>
+                        </div>
+                        <button type="button" class="button mt-3" onclick="prevStep()">Previous</button>
+                        <button type="submit" class="button mt-3" id="nextStep2" disabled>Next</button>
+                    </form>
+                </div>
+
+                <!-- Step 3: Pick a Seat -->
+                <div class="carousel-item">
+                    <div class="step-title">Pick a Seat</div>
+                    <div id="seatSelection" class="pick-seat d-none">
+                     <!-- Seat map will be generated here dynamically -->
+                    </div>
+                    <div id="totalAmount" class="mt-3">
+                        Total Amount: <span id="amountDisplay">Rs. 0</span>
+                    </div>
+                    <button class="button mt-3" onclick="prevStep()">Previous</button>
+                    <button class="button mt-3" id="nextStep3" disabled>Next</button>
+                </div>
+
+                <!-- Step 4: Summary -->
+<div class="carousel-item">
+    <div class="step-title">Summary</div>
+    <div class="summary-form">
+        <div class="summary-item">
+            <p>Your selected movie: <strong id="summaryMovie">Movie Name</strong></p>
+        </div>
+        <div class="summary-item">
+            <p>Your details: <strong id="summaryDetails">Name, Email</strong></p>
+        </div>
+        <div class="summary-item">
+            <p>Your seat: <strong id="summarySeat">Seat Number</strong></p>
+        </div>
+        <form id="summaryForm" action="save_ticket.php" method="post">
+            <input type="hidden" name="date" id="hiddenDate">
+            <input type="hidden" name="movie" id="hiddenMovie">
+            <input type="hidden" name="cinema" id="hiddenCinema">
+            <input type="hidden" name="showTime" id="hiddenShowTime">
+            <input type="hidden" name="name" id="hiddenName">
+            <input type="hidden" name="email" id="hiddenEmail">
+            <input type="hidden" name="contact" id="hiddenContact">
+            <input type="hidden" name="seat" id="hiddenSeat">
+            <button type="button" class="button mt-3" onclick="prevStep()">Previous</button>
+            <button type="submit" class="button mt-3" id="buyTicketButton" onclick="buyTicket()">Buy Ticket</button>
+        </form>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+    const dateSelection = document.getElementById('dateSelection');
+    const movieSelection = document.getElementById('movieSelection');
+    const cinemaSelection = document.getElementById('cinemaSelection');
+    const showTimeSelection = document.getElementById('showTimeSelection');
+    const seatSelection = document.getElementById('seatSelection');
+    const totalAmountDisplay = document.getElementById('amountDisplay');
+    const nextStep1 = document.getElementById('nextStep1');
+    const detailsForm = document.getElementById('detailsForm');
+    const nextStep2 = document.getElementById('nextStep2');
+    const nextStep3 = document.getElementById('nextStep3');
+    const nameInput = document.getElementById('nameInput');
+    const emailInput = document.getElementById('emailInput');
+    const contactInput = document.getElementById('contactInput');
+    const bookingForm = document.getElementById('summaryForm');
+
+    let selectedDate = null;
+    let selectedMovie = null;
+    let selectedCinema = null;
+    let selectedShowTime = null;
+    let selectedSeats = new Set(); 
+    const seatPrice = 1000; // Price per seat
+
+    const seatMaps = {
+        'Cinema 1': {
+            'A': ['1', '2', '3', '4', '5','6','7','8','9','10'],
+            'B': ['1', '2', '3', '4', '5','6','7','8','9','10'],
+            'C': ['1', '2', '3', '4', '5','6','7','8','9','10'],
+            'D': ['1', '2', '3', '4', '5','6','7','8','9','10'],
+            'E': ['1', '2', '3', '4', '5','6','7','8','9','10'],
+            'F': ['1', '2', '3', '4', '5','6','7','8','9','10'],
+            'G': ['1', '2', '3', '4', '5','6','7','8','9','10'],
+            'H': ['1', '2', '3', '4', '5','6','7','8','9','10'],
+        },
+        'Cinema 2': {
+            'A': ['1', '2', '3', '4', '5', '6'],
+            'B': ['1', '2', '3', '4', '5', '6'],
+            'C': ['1', '2', '3', '4', '5', '6'],
+            'D': ['1', '2', '3', '4', '5', '6'],
+            'E': ['1', '2', '3', '4', '5', '6'],
+            'F': ['1', '2', '3', '4', '5', '6'],
+            'G': ['1', '2', '3', '4', '5', '6'],
+            'H': ['1', '2', '3', '4', '5', '6'],
+            'I': ['1', '2', '3', '4', '5', '6'],
+            'J': ['1', '2', '3', '4', '5', '6'],
+            'K': ['1', '2', '3', '4', '5', '6']
+        },
+        'Cinema 3': {
+            'A': ['1', '2', '3', '4', '5', '6', '7','8','9','10','11','12'],
+            'B': ['1', '2', '3', '4', '5', '6', '7','8','9','10','11','12'],
+            'c': ['1', '2', '3', '4', '5', '6', '7','8','9','10','11','12'],
+            'D': ['1', '2', '3', '4', '5', '6', '7','8','9','10','11','12'],
+            'E': ['1', '2', '3', '4', '5', '6', '7','8','9','10','11','12'],
+            'F': ['1', '2', '3', '4', '5', '6', '7','8','9','10','11','12'],
+            'G': ['1', '2', '3', '4', '5', '6', '7','8','9','10','11','12']
+        }
+    };
+    
+
+
+
+    function generateSeats(cinema) {
+        const seatMap = seatMaps[cinema];
+        seatSelection.innerHTML = ''; // Clear previous seats
+        for (const row in seatMap) {
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'seat-row';
+            seatMap[row].forEach(seat => {
+                const button = document.createElement('button');
+                button.className = 'btn';
+                button.textContent = `${row}${seat}`;
+                button.dataset.seat = `${row}${seat}`;
+                button.addEventListener('click', function () {
+                    handleSeatSelection(button);
+                });
+                rowDiv.appendChild(button);
+            });
+            seatSelection.appendChild(rowDiv);
+        }
+        seatSelection.classList.remove('d-none');
+    }
+
+    function handleSeatSelection(button) {
+        const seat = button.dataset.seat;
+        if (button.classList.contains('selected')) {
+            button.classList.remove('selected');
+            selectedSeats.delete(seat);
+        } else {
+            button.classList.add('selected');
+            selectedSeats.add(seat);
+        }
+        updateTotalAmount(); // Update total amount when seat selection changes
+        nextStep3.disabled = selectedSeats.size === 0;
+    }
+
+    function updateTotalAmount() {
+        const totalAmount = selectedSeats.size * seatPrice;
+        totalAmountDisplay.textContent = `Rs. ${totalAmount}`;
+    }
+
+    async function fetchData(url, params = {}) {
+        const queryString = new URLSearchParams(params).toString();
+        const response = await fetch(`${url}?${queryString}`);
+        return response.json();
+    }
+
+    async function loadDates() {
+        const dates = await fetchData('get_dates.php');
+        dateSelection.innerHTML = dates.map(date => `<button class="btn">${date}</button>`).join('');
+    }
+
+    async function loadMovies(date) {
+        const movies = await fetchData('get_movies.php', { date });
+        movieSelection.querySelector('.movie-buttons').innerHTML = movies.map(movie => `<button class="btn">${movie}</button>`).join('');
+        movieSelection.classList.remove('d-none');
+    }
+
+    async function loadCinemas(movie, date) {
+        const cinemas = await fetchData('get_cinemas.php', { movie, date });
+        cinemaSelection.querySelector('.cinema-buttons').innerHTML = cinemas.map(cinema => `<button class="btn">${cinema}</button>`).join('');
+        cinemaSelection.classList.remove('d-none');
+    }
+
+    async function loadShowtimes(cinema, movie, date) {
+    console.log(`Loading showtimes for Cinema: ${cinema}, Movie: ${movie}, Date: ${date}`); // Debug log
+    const showtimes = await fetchData('get_showtimes.php', { cinema, movie, date });
+    console.log('Fetched showtimes:', showtimes); // Debug log
+    showTimeSelection.querySelector('.showtime-buttons').innerHTML = showtimes.map(showtime => `<button class="btn">${showtime}</button>`).join('');
+    showTimeSelection.classList.remove('d-none');
+}
+
+
+    dateSelection.addEventListener('click', async function (e) {
+        if (e.target.tagName === 'BUTTON') {
+            selectedDate = e.target.textContent;
+            const buttons = dateSelection.querySelectorAll('button');
+            buttons.forEach(button => button.classList.remove('selected'));
+            e.target.classList.add('selected');
+            await loadMovies(selectedDate);
+            movieSelection.classList.remove('d-none');
+        }
+    });
+
+    movieSelection.addEventListener('click', async function (e) {
+        if (e.target.tagName === 'BUTTON') {
+            selectedMovie = e.target.textContent;
+            const buttons = movieSelection.querySelectorAll('button');
+            buttons.forEach(button => button.classList.remove('selected'));
+            e.target.classList.add('selected');
+            await loadCinemas(selectedMovie, selectedDate);
+            cinemaSelection.classList.remove('d-none');
+        }
+    });
+
+    // cinemaSelection.addEventListener('click', async function (e) {
+    //     if (e.target.tagName === 'BUTTON') {
+    //         selectedCinema = e.target.textContent;
+    //         const buttons = cinemaSelection.querySelectorAll('button');
+    //         buttons.forEach(button => button.classList.remove('selected'));
+    //         e.target.classList.add('selected');
+    //         await loadShowtimes(selectedCinema, selectedMovie, selectedDate);
+    //         showTimeSelection.classList.remove('d-none');
+    //         generateSeats(selectedCinema); // Generate seats based on the selected cinema
+    //     }
+    // });
+    cinemaSelection.addEventListener('click', async function (e) {
+    if (e.target.tagName === 'BUTTON') {
+        selectedCinema = e.target.textContent;
+
+        // Update visual state
+        const buttons = cinemaSelection.querySelectorAll('button');
+        buttons.forEach(button => button.classList.remove('selected'));
+        e.target.classList.add('selected');
+
+        // Load and display showtimes for the selected cinema, movie, and date
+        await loadShowtimes(selectedCinema, selectedMovie, selectedDate);
+        
+        // Display showtime selection
+        showTimeSelection.classList.remove('d-none');
+
+        // Generate and display seats for the selected cinema
+        generateSeats(selectedCinema);
+    }
+});
+
+
+    showTimeSelection.addEventListener('click', function (e) {
+        if (e.target.tagName === 'BUTTON') {
+            selectedShowTime = e.target.textContent;
+            const buttons = showTimeSelection.querySelectorAll('button');
+            buttons.forEach(button => button.classList.remove('selected'));
+            e.target.classList.add('selected');
+            nextStep1.disabled = false;
+        }
+    });
+
+    nextStep1.addEventListener('click', function () {
+        document.getElementById('summaryMovie').textContent = selectedMovie;
+        nextStep();
+    });
+
+    detailsForm.addEventListener('input', function () {
+        if (nameInput.value && emailInput.value && contactInput.value) {
+            nextStep2.disabled = false;
+        } else {
+            nextStep2.disabled = true;
+        }
+    });
+
+    detailsForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        document.getElementById('summaryDetails').textContent = `${nameInput.value}, ${emailInput.value}, ${contactInput.value}`;
+        nextStep();
+    });
+
+    nextStep3.addEventListener('click', function () {
+        document.getElementById('summarySeat').textContent = Array.from(selectedSeats).join(', ');
+        nextStep();
+    });
+
+    function nextStep() {
+        $('#ticketBooking').carousel('next');
+    }
+
+    function prevStep() {
+        $('#ticketBooking').carousel('prev');
+    }
+
+    function buyTicket() {
+        document.getElementById('hiddenDate').value = selectedDate;
+        document.getElementById('hiddenMovie').value = selectedMovie;
+        document.getElementById('hiddenCinema').value = selectedCinema;
+        document.getElementById('hiddenShowTime').value = selectedShowTime;
+        document.getElementById('hiddenName').value = nameInput.value;
+        document.getElementById('hiddenEmail').value = emailInput.value;
+        document.getElementById('hiddenContact').value = contactInput.value;
+        document.getElementById('hiddenSeat').value = Array.from(selectedSeats).join(', ');
+        bookingForm.submit();
+    }
+
+    // Initial load of dates
+    loadDates();
+
+    // Expose functions to global scope
+    window.buyTicket = buyTicket;
+    window.prevStep = prevStep;
+});
+
+    </script>
+    
+
+          
+</body>
+</html>

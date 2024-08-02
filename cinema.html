@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAVOY Cinema - Cinemas</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            padding-top: 70px; /* Adjusted padding for fixed navbar */
+        }
+
+        .navbar {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+        }
+
+        .navbar-brand {
+            font-size: 1.5em;
+            color: darkorange;
+        }
+
+        .nav-link {
+            color: white;
+        }
+
+        .nav-link:hover, .nav-item.active .nav-link {
+            color: darkorange;
+        }
+
+        .cinema-section {
+            margin: 50px auto;
+            padding: 20px;
+            max-width: 1200px; /* Increased max-width for larger images */
+        }
+
+        .cinema-section h2 {
+            color: white;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .cinema-hall {
+            margin-bottom: 40px;
+        }
+
+        .cinema-hall-description {
+            margin-bottom: 20px;
+        }
+
+        .cinema-hall img {
+            width: 100%; /* Full width for images */
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .now-showing {
+            color: white;
+            font-size: 1.5em;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .movie-card {
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .movie-card h3 {
+            color: white;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .movie-buttons {
+            text-align: center;
+        }
+
+        .movie-buttons button {
+            margin-right: 10px;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            text-align: center;
+            color: white;
+        }
+        .small-pictures {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            overflow-x: auto; /* Enable horizontal scrolling */
+            padding-bottom: 10px; /* Add some padding to avoid cutting off the scroll bar */
+            white-space: nowrap;
+            -ms-overflow-style: none;  /* Internet Explorer 10+ */
+            scrollbar-width: none;  /* Firefox */
+    	}
+        .small-pictures::-webkit-scrollbar {
+            display: none;  /* Safari and Chrome */
+        }
+
+        .small-picture {
+            width: 100px; /* Adjust the size as needed */
+            height: auto;
+            margin: 0 10px; /* Space between images */
+            border-radius: 5px;
+            border: 2px solid darkorange; /* Optional border for better visibility */
+        }   
+
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <a class="navbar-brand" href="index.html">SAVOY</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="tickets.html">Buy Tickets</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="movies.html">Movies</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="cinema.html">Cinemas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="contact.html">Contact Us</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Cinema Halls Section -->
+    <section class="cinema-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2>Cinemas</h2>
+                </div>
+            </div>
+
+            <!-- Cinema Hall 1 -->
+            <div class="row cinema-hall" id="cinema-hall-C1">
+                <div class="col-lg-6">
+                    <div class="cinema-hall-description">
+                        <h3>Cinema- C1</h3>
+                        <p>Step into the cutting-edge Cinema Hall C1, located conveniently at the main lobby upon entering Savoy. Hosting 135 seats, C1 boasts an unparalleled Dolby Atmos surround sound system alongside ultra-bright 4K projection with 3D capabilities. Designed with wheelchair accessibility in mind, each seat ensures a first-class audiovisual experience, setting the standard in cinematic immersion.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="images/cinema1.jpg" alt="Cinema Hall C1">
+                </div>
+                <div class="col-12">
+                    <div class="small-pictures">
+                        <img src="images/c1_small1.jpg" alt="Cinema Hall C1 Small" class="small-picture">
+                        <img src="images/c1_small2.jpg" alt="Cinema Hall C2 Small" class="small-picture">
+                        <img src="images/c1_small3.jpg" alt="Cinema Hall C3 Small" class="small-picture">
+                        <img src="images/c1_small4.jpg" alt="Cinema Hall C3 Small" class="small-picture">
+                        <img src="images/c1_small5.jpg" alt="Cinema Hall C3 Small" class="small-picture">
+                    </div>
+                </div>
+                
+                <div class="col-12">
+                    <h2 class="now-showing">Now Showing</h2>
+                    <div class="row" id="now-showing-C1">
+                        <!-- Movies will be populated here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cinema Hall 2 -->
+            <div class="row cinema-hall" id="cinema-hall-C2">
+                <div class="col-lg-6">
+                    <div class="cinema-hall-description">
+                        <h3>Cinema- C2</h3>
+                        <p>Discover Cinema Hall C2 on Level 3, accessible both from Savoy's main entrance and directly from the mall. With a seating capacity of 70 viewers, C2 features a state-of-the-art Dolby 7.1 surround sound system and superior 2K laser projection with 3D capabilities. Offering plush seating and unobstructed views, C2 is ideal for private screenings, corporate events, or memorable parties.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="images/cinema2.jpg" alt="Cinema Hall C2">
+                </div>
+                <!-- Small Pictures -->
+                <div class="col-12">
+                    <div class="small-pictures">
+                        <img src="images/c2_small1.jpg" alt="Cinema Hall C1 Small" class="small-picture">
+                        <img src="images/c2_small2.jpg" alt="Cinema Hall C2 Small" class="small-picture">
+                        <img src="images/c2_small3.jpg" alt="Cinema Hall C3 Small" class="small-picture">
+                        <img src="images/c2_small4.jpg" alt="Cinema Hall C3 Small" class="small-picture">
+                        <img src="images/c2_small5.jpg" alt="Cinema Hall C3 Small" class="small-picture">
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <h2 class="now-showing">Now Showing</h2>
+                    <div class="row" id="now-showing-C2">
+                        <!-- Movies will be populated here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cinema Hall 3 -->
+            <div class="row cinema-hall" id="cinema-hall-C3">
+                <div class="col-lg-6">
+                    <div class="cinema-hall-description">
+                        <h3>Cinema- C3</h3>
+                        <p>Located near WorldSpice on Level 4, Cinema Hall C3 promises a thrilling cinematic experience. Equipped with superior 2K laser projection and an expansive Dolby 7.1 surround sound system, C3 accommodates 150 viewers with unobstructed seat views. Featuring inclusive design with wheelchair-accessible seating, C3 ensures every moviegoer enjoys an unparalleled viewing journey.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="images/cinema3.jpg" alt="Cinema Hall C3">
+                </div>
+                <div class="col-12">
+                    <div class="small-pictures">
+                        <img src="images/c3_small1.jpg" alt="Cinema Hall C1 Small" class="small-picture">
+                        <img src="images/c3_small2.jpg" alt="Cinema Hall C2 Small" class="small-picture">
+                        <img src="images/c3_small3.jpg" alt="Cinema Hall C3 Small" class="small-picture">
+                        <img src="images/c3_small4.jpg" alt="Cinema Hall C3 Small" class="small-picture">
+                        <img src="images/c3_small5.jpg" alt="Cinema Hall C3 Small" class="small-picture">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <h2 class="now-showing">Now Showing</h2>
+                    <div class="row" id="now-showing-C3">
+                        <!-- Movies will be populated here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 SAVOY Cinema. All rights reserved.</p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('fetch_movies.php')
+                .then(response => response.json())
+                .then(movies => {
+                    movies.forEach(movie => {
+                        const movieCard = `
+                            <div class="col-md-4">
+                                <div class="movie-card">
+                                    <img src="${movie.image}" alt="${movie.title}" class="img-fluid">
+                                    <h3>${movie.title}</h3>
+                                    <div class="movie-buttons">
+                                        ${movie.tickets_url ? `<button class="btn btn-warning" onclick="location.href='${movie.tickets_url}'">Buy Tickets</button>` : ''}
+                                        <button class="btn btn-secondary" onclick="location.href='${movie.trailer_url}'">Watch Trailer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        // Append movie card to the respective cinema hall's now showing section
+                        document.getElementById(`now-showing-${movie.cinema_hall}`).innerHTML += movieCard;
+                    });
+                });
+        });
+    </script>
+</body>
+</html>
